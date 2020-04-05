@@ -23,10 +23,12 @@ end
 A = param.A;
 B = param.B;
 Q = param.Q;
-R = param.R;
-[~,K,~] = idare(A, B, Q, R,[],[]);
-%p = -((B')*X*B+R)^(-1)*(B')*X*A*T;
-p = -K*(T-param.T_sp);
+R = param
+[X,K,~] = idare(param.A, param.B, param.Q, param.R,[],[]);
+p = -(B'X*B+param.R)^(-1)*B'*X*A*T;
+disp(p);
+p = K*T;
+disp(p);
 end
 
 function param = init()
