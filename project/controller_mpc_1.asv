@@ -50,8 +50,7 @@ objective = objective + X{N}'*param.P*X{N}; % add terminal cost
 x0 = sdpvar(3,1);
 constraints = [constraints, X{1} == x0];
 % constraints = [constraints, param.Xcons(:,1) <= X{1} <=
-% param.Xcons(:,2)]; % the initial condition constraint, for numerical
-% reason, we do not add it.
+% param.Xcons(:,2)]; % the initial condition constraint
 
 ops = sdpsettings('verbose',0,'solver','quadprog');
 fprintf('JMPC_dummy = %f',value(objective));
