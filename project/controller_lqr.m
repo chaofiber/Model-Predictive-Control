@@ -14,23 +14,15 @@ if isempty(param)
     param = init();
 end
 
-% compute control action
-% p = ...;
-
 % This is an infinite LQR controller, 
 % J(x(0))=min_U \sum_{i=0}^{\infty}(x_i^TQx_i+u_i^Tu_i)
 % We need to compute P_inf=X by Algebraic Riccati Equation
 
-%p = -((B')*X*B+R)^(-1)*(B')*X*A*T; p = p_sp + 
 p = -param.K*(T-param.T_sp)+param.p_sp;
-%disp("current input T gap:");disp(T-param.T_sp);
-%disp("current input p gap:");disp(p-param.p_sp);
 end
 
 function param = init()
 param = compute_controller_base_parameters;
-% add additional parameters if necessary, e.g.
-% param.F = ...,
 A = param.A;
 B = param.B;
 Q = param.Q;
@@ -40,7 +32,4 @@ param.K = K;
 param.P = P;
 disp(P);
 disp(eig(P));
-%p = [0.93;0.93;0.92];
-%param.K = place(A,B,p);
-%disp(eig(A-B*param.K));
 end
