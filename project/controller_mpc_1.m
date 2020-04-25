@@ -37,23 +37,16 @@ U = sdpvar(repmat(nu,1,N-1),repmat(1,1,N-1),'full');
 X = sdpvar(repmat(nx,1,N),repmat(1,1,N),'full');
 
 objective = 0;
-constraints = [   ];
+constraints = param.Xcons(:,1) <= X{1} <= param.Xcons(:,2); % Init constraint, sometimes do not enforce it
 for k = 1:N-1
   constraints = [constraints, X{k+1} == param.A * X{k} + param.B * U{k}];
-  constraints = [constraints, param.Xcons(:,1) <= X{k+1} <= param.Xcons(:,2)]; % do not add constraints on X{1}
+  constraints = [constraints, param.Xcons(:,1) <= X{k+1} <= param.Xcons(:,2)]; 
   constraints = [constraints, param.Ucons(:,1) <= U{k} <= param.Ucons(:,2)];
   objective = objective + X{k}'*param.Q*X{k} + U{k}'*param.R*U{k}; 
 end
 objective = objective + X{N}'*param.P*X{N}; % add terminal cost
 
-% init
-x0 = sdpvar(3,1);
-constraints = [constraints, X{1} == x0];
-% constraints = [constraints, param.Xcons(:,1) <= X{1} <=
-% param.Xcons(:,2)]; % the initial condition constraint, for numerical
-% reason, we do not add it.
-
 ops = sdpsettings('verbose',0,'solver','quadprog');
 fprintf('JMPC_dummy = %f',value(objective));
-yalmip_optimizer = optimizer(constraints,objective,ops,x0,U{1} );
+yalmip_optimizer = optimizer(constraints,objective,ops,X{1},U{1} );
 end

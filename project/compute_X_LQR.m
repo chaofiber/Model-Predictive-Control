@@ -24,11 +24,16 @@ function [A_x, b_x] = compute_X_LQR
     A_x = [A_xx;-A_xx;A_xu;-A_xu];
     b_x = [repmat(param.Xcons(:,2),(N+1),1);-repmat(param.Xcons(:,1),N+1,1);...
            repmat(param.Ucons(:,2),N,1);-repmat(param.Ucons(:,1),N,1)];
-%     P = polytope(A_x,b_x);
-%     figure(2);
-%     plot(P);
-%     hold on;
-%     plot3(-1,-0.3,-4.5,'.','MarkerSize',10);
-%     legend("feasible set","infeasible initialization");
+       
+    Options.FaceAlpha=0.1;
+    %Options.color='g';
+    P = polytope(A_x,b_x);
+    figure(2);
+    plot(P,Options);
+    hold on;
+    plot3(-1,-0.3,-4.5,'.','MarkerSize',10);
+    hold on;
+    plot3(0,0,0,'.','MarkerSize',10);
+    legend("feasible set","infeasible initialization");
 end
 
