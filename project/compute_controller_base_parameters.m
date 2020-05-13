@@ -14,13 +14,13 @@ function param = compute_controller_base_parameters
     To = truck.To;
     Ac = [(-a12-a1o)/m1,            a12/m1,             0;
                  a12/m2, (-a12-a23-a2o)/m2,        a23/m2;
-                      0,            a23/m3, (-a23-a3o)/m3];
+                      0,            a23/m3, (-a23-a3o)/m3]; 
     Bc = [1/m1,    0;
              0, 1/m2;
-             0,    0];
+             0,    0]; 
     Bcd = diag([1/m1, 1/m2, 1/m3]);
     dc = truck.w + [a1o*To; a2o*To;a3o*To];
-    param.dc = dc;
+    param.dc = dc; 
     
     % (2) discretization
     Ts = 60;

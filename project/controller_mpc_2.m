@@ -19,7 +19,8 @@ end
 if (errorcode ~= 0)
       warning('MPC infeasible');
 end
-p = param.p_sp + u_mpc;
+p = param.p_sp + u_mpc{1};
+%disp(u_mpc{2});
 end
 
 function [param, yalmip_optimizer] = init()
@@ -49,5 +50,5 @@ constraints = [constraints, X{N} == 0]; % zero terminal state constraint
 
 ops = sdpsettings('verbose',0,'solver','quadprog');
 fprintf('JMPC_dummy = %f',value(objective));
-yalmip_optimizer = optimizer(constraints,objective,ops,X{1},U{1} );
+yalmip_optimizer = optimizer(constraints,objective,ops,X{1},{U{1},objective} );
 end
